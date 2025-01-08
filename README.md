@@ -1,69 +1,75 @@
 # DevOps Challenge (.NET)
 
-## Overview :wave:
+# Overview 
 
-This challenge focuses on the diverse skills needed by a DevOps Engineer to develop a.NET 5 application.
+This repository demonstrates a DevOps challenge to containerize and build a .NET 5 application using a GitHub Actions CI/CD pipeline. The solution incorporates best practices to ensure a high-quality deliverable and an efficient developer experience.
 
-In completing the challenge, you're welcome to change all aspects of the initial repository, including:
-* Directory and file structure.
-* Solution and project names.
-* Namespaces and class names.
-* Code, data, and settings files.
-* NuGet packages and dependencies.
-* This README!
+# CI/CD Pipeline Details
+Pipeline Configuration: .github/workflows/ci-cd-pipeline.yml
 
-The solution should embody best practices, even if the initial solution lacks them.
+The pipeline is designed to build, containerize, and optionally push the application as a Docker image. Here's a breakdown:
 
-You'll need .NET 5 and SQL Server Local DB to build and run the application locally. On a Mac or Linux device, you can update the connection string (in `appsettings.Development.json` and `DatabaseContextDesignTimeFactory.cs`) and use Docker to launch SQL Server Developer Edition.
+# Triggers
 
-## Background :blue_book:
+push: Automatically triggers the pipeline for every push to the main branch.
+pull_request: Executes the pipeline for pull requests targeting the main branch.
+Jobs and Steps
 
-You're a DevOps Engineer working in a small team to launch a new application. The management team will use the new application to view and report on daily sales data.
+1. Checkout Code
 
-The development team have built a new API to ingest sales data from an existing system and provide endpoints for viewing and reporting the data. A future application will provide a user interface.
+Uses the actions/checkout@v2 action to clone the repository into the runner.
 
-*Note: For simplicity of the solution, the API does not require authentication. Don't do this in a real application!*
+2. Set Up .NET SDK
 
-## Question :question:
+Configures the runner with .NET 5 SDK using the actions/setup-dotnet@v2 action.
 
-You should:
+3. Build Docker Image
 
-1. Introduce best practices into the solution to ensure a high-quality deliverable and a great developer experience.
+Navigates to the source directory and builds the Docker image using the provided Dockerfile. Tags the image with the current GitHub run number for versioning.
 
-2. Build and package the application as a container in a CI/CD pipeline ready for deployment
+4. Tag Docker Image
 
-You'll need to select a CI/CD tool to complete the challenge. Feel free to use your preferred platform, such as GitHub Actions, Azure Pipelines, Circle CI, or Travis CI.
+Tags the image with a user-specific Docker Hub namespace for easier identification.
 
-*Note: This challenge does NOT require infrastructure provisioning or deployment. This challenge has designed to be possible without incurring any licencing, hosting or tooling costs.*
+5. Push to Docker Hub 
 
-## Good to have (optional) :zap:
+Authenticates with Docker Hub using repository secrets and pushes the tagged image.
 
-You've received feedback on the application from members of the project team. Optionally, fix these issues, or provide instructions back to the developer on the next steps to take:
+# Dockerfile Details
 
-1. The front end developer consuming the Sales API has mentioned the Swagger UI interface doesn't contain descriptions of operations, parameters, or responses. The Swagger UI interface should display the code comments written by the API developer.
+Multi-Stage Build Process
 
-2. The security team have identified the application is revealing the technology used by sending the response header `Server: Kestrel`. This header should not be present in responses sent by the server.
+1. Build Stage
 
-3. The database administrator has identified poor query performance when a sale record is retrieved using its transaction ID. They have recommended creating an index.
+Uses the official .NET 5 SDK image for compiling the application.
+Restores dependencies using the project files.
+Publishes the application in Release mode.
 
-## Attempt :clock5:
+2. Final Stage
 
-Spend as much or as little time as you like on this challenge. DevOps Engineers wear many hats :crown:, and there's always more opportunity for change and improvement. **Limit yourself to the time you have. Make the changes that deliver the most value.**
+Runs the application using the optimized mcr.microsoft.com/dotnet/aspnet:5.0 image.
+Copies published files from the build stage to the final image.
+Exposes ports 80 and 443 for HTTP and HTTPS traffic.
+Configures the application entry point.
 
-If you're looking for inspiration of changes to make, consider:
+# Best Practices
 
-* Getting started documentation for a new developer.
-* Configuring Git's behaviour for particular files.
-* Versioning of artifacts.
-* Linting and code quality analysis.
-* Scanning for code vulnerabilities.
-* Running unit tests.
-* Assessing code coverage.
-* Indexing PDBs for debugging in a deployed environment.
-* Preparing to run integration tests on a deployed environment.
-* Preparing to deploy database schema migrations.
-* Generating a client for the API.
+Dependency Restoration: Copies only necessary files for dependency restoration to optimize caching.
+Multi-Stage Build: Minimizes the final image size by separating build and runtime stages.
 
-There's always more to learn and do. **You don't need to do all of these to demonstrate your ability.** This list is a suggestion of ideas. You're welcome to do something else.
+Security: Cleans the apt cache after updates to reduce vulnerabilities.
 
-Be kind to yourself, and enjoy the challenge. :heart:
+# Best Practices in the CI/CD Pipeline
+
+1. Efficient Caching
+Utilized dependency restoration steps in Docker to leverage build layer caching.
+3. Versioning
+Tagged Docker images with the GitHub run number for traceability.
+4. Secrets Management
+Stored Docker Hub credentials as GitHub repository secrets to prevent exposure.
+5. Portability
+Leveraged ubuntu-latest runners for a consistent and platform-independent pipeline.
+
+# Conclusion
+
+This guide outlines the CI/CD pipeline and the best practices applied in this project. The solution ensures a streamlined and secure process for building and containerizing the .NET 5 application while adhering to DevOps principles.
