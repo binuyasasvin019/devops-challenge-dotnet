@@ -9,73 +9,24 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
+    
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up .NET SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '5.0'
 
-      # Step 2: Set up .NET SDK
-      - name: Set up .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '5.0'
+    - name: Build Docker image
+      run: |
+        cd src
+        docker build --rm -f DevOpsChallenge.SalesApi/Dockerfile -t salesApi:${{ github.run_number }} .
 
-      # Step 3: Cache NuGet packages for faster builds
-      - name: Cache NuGet packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      # Step 4: Restore dependencies and build the application
-      - name: Restore and Build
-        run: |
-          dotnet restore
-          dotnet build --configuration Release --no-restore
-
-      # Step 5: Publish the application
-      - name: Publish Application
-        run: |
-          dotnet publish -c Release -o out
-
-      # Step 6: Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      # Step 7: Cache Docker layers for optimized builds
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-docker-
-
-      # Step 8: Build and tag the Docker image
-      - name: Build Docker Image
-        run: |
-          docker buildx build \
-            --platform linux/amd64 \
-            --cache-from type=local,src=/tmp/.buildx-cache \
-            --cache-to type=local,dest=/tmp/.buildx-cache,mode=max \
-            -t binuyasas/devops-challenge-salesapi:${{ github.sha }} \
-            -f Dockerfile .
-
-      # Step 9: List Docker images
-      - name: List Docker Images
-        run: docker images
-
-      # Step 10: Push Docker image to DockerHub
-      - name: Push Docker Image to DockerHub
-        if: github.event_name == 'push'
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-          docker push binuyasas/devops-challenge-salesapi:${{ github.sha }}
+    - name: Push Docker image to DockerHub (optional)
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push salesApi:${{ github.run_number }}
