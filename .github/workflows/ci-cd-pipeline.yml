@@ -24,9 +24,9 @@ jobs:
     - name: Build Docker image
       run: |
         cd src
-        docker build --rm -f DevOpsChallenge.SalesApi/Dockerfile -t salesapi:${{ github.run_number }} .
+        docker build --rm -f DevOpsChallenge.SalesApi/Dockerfile -t devops-challenge-salesapi:${{ github.run_number }} .
 
     - name: Push Docker image to DockerHub (optional)
       run: |
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push salesapi:${{ github.run_number }}
+        docker push binuyasas/devops-challenge-salesapi:${{ github.run_number }}
