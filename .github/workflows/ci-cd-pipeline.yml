@@ -38,6 +38,7 @@ jobs:
           --platform linux/amd64 \
           -t devops-challenge-salesapi:${{ github.sha }} \
           -f Dockerfile .
+        docker images
 
     - name: List Docker images
       run: docker images    
