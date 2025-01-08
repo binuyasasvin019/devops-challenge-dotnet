@@ -36,7 +36,7 @@ jobs:
       run: |
         docker buildx build \
           --platform linux/amd64 \
-          -t devops-challenge-salesapi:${{ github.sha }} \
+          -t binuyasas/devops-challenge-salesapi:${{ github.sha }} \
           -f Dockerfile .
           --push
         docker images
@@ -47,4 +47,4 @@ jobs:
     - name: Push Docker image to DockerHub (optional)
       run: |
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push devops-challenge-salesapi:${{ github.sha }}
+        docker push binuyasas/devops-challenge-salesapi:${{ github.sha }}
