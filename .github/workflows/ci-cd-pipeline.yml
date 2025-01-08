@@ -41,5 +41,5 @@ jobs:
         
     - name: Push Docker image to DockerHub (optional)
       run: |
-        echo ${{ secrets.DOCKER_USERNAME }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
         docker push my-dotnet-api:${{ github.sha }}
