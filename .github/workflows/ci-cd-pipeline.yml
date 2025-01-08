@@ -34,9 +34,9 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker buildx build --no-cache \
+        docker buildx build \
           --platform linux/amd64 \
-          -t DevOps-Challenge-SalesApi:${{ github.sha }} \
+          -t devOps-challenge-salesapi:${{ github.sha }} \
           -f Dockerfile .
 
     - name: List Docker images
@@ -45,4 +45,4 @@ jobs:
     - name: Push Docker image to DockerHub (optional)
       run: |
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push my-dotnet-api:${{ github.sha }}
+        docker push devOps-challenge-salesapi:${{ github.sha }}
