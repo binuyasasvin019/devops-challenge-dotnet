@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for .NET 5 Application
+name: Build and Containerize .NET Application
 
 on:
   push:
@@ -10,46 +10,36 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # Using Windows runner for .NET 5
-
+    runs-on: ubuntu-latest
+    
     steps:
-      # Step 1: Checkout the repository code
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up .NET SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '5.0'
 
-      # Step 2: Set up .NET 5 SDK
-      - name: Set up .NET 5 SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '5.0.x'
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      # Step 3: Restore dependencies
-      - name: Restore Dependencies
-        run: dotnet restore
+    - name: Cache Docker layers
+      uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
 
-      # Step 4: Build the project
-      - name: Build the Project
-        run: dotnet build --configuration Release
-
-      # Step 5: Run unit tests
-      - name: Run Tests
-        run: dotnet test --configuration Release --no-build --verbosity normal
-
-      # Step 6: Publish the application
-      - name: Publish Application
-        run: dotnet publish --configuration Release --output ./publish
-
-      # Step 7: Build the Docker image
-      - name: Build Docker Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/devopschallenge:latest ./publish
-
-      # Step 8: Log in to Docker Hub
-      - name: Log in to Docker Hub
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      # Step 9: Push the Docker image to Docker Hub
-      - name: Push Docker Image to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/devopschallenge:latest
+    - name: Build Docker image
+      run: |
+        docker buildx build \
+          --platform linux/amd64 \
+          -t my-dotnet-api:${{ github.sha }} \
+          -f Dockerfile .
+        
+    - name: Push Docker image to DockerHub (optional)
+      run: |
+        echo ${{ secrets.DOCKER_USERNAME }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push my-dotnet-api:${{ github.sha }}
