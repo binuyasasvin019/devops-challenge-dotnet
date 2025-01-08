@@ -10,48 +10,40 @@ on:
 
 jobs:
   build:
-    name: Build and Containerize .NET Application
     runs-on: ubuntu-latest
-
+    
     steps:
-      # Checkout source code
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up .NET SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '5.0'
 
-      # Set up .NET SDK
-      - name: Set up .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '5.0'
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      # Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+    - name: Cache Docker layers
+      uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
 
-      # Cache Docker layers
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+    - name: Build Docker image
+      run: |
+        docker buildx build \
+          --platform linux/amd64 \
+          -t binuyasas/devops-challenge-salesapi:${{ github.sha }} \
+          -f Dockerfile .
+        docker images
 
-      # Log in to Docker Hub
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: List Docker images
+      run: docker images    
 
-      # Build and push Docker image
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: binuyasas/devops-challenge-salesapi:${{ github.sha }}
-
-      # Optionally list Docker images for debugging
-      - name: List Docker Images
-        run: docker images
+    - name: Push Docker image to DockerHub (optional)
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push binuyasas/devops-challenge-salesapi:${{ github.sha }}
