@@ -1,0 +1,15 @@
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Business.deps.json
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Business.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\bin\Debug\net5.0\ref\DevOpsChallenge.SalesApi.Business.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Business.pdb
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Database.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Database.pdb
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.csproj.AssemblyReference.cache
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.AssemblyInfoInputs.cache
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.AssemblyInfo.cs
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.csproj.CoreCompileInputs.cache
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.csproj.CopyComplete
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\ref\DevOpsChallenge.SalesApi.Business.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Business\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Business.pdb

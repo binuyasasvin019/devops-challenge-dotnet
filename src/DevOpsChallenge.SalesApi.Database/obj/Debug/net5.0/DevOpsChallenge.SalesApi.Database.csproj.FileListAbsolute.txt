@@ -1,0 +1,15 @@
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Database.deps.json
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Database.runtimeconfig.json
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Database.runtimeconfig.dev.json
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Database.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\bin\Debug\net5.0\ref\DevOpsChallenge.SalesApi.Database.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\bin\Debug\net5.0\DevOpsChallenge.SalesApi.Database.pdb
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.csproj.AssemblyReference.cache
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.AssemblyInfoInputs.cache
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.AssemblyInfo.cs
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.csproj.CoreCompileInputs.cache
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\ref\DevOpsChallenge.SalesApi.Database.dll
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.pdb
+C:\Users\indhumini\Desktop\devops\devops-challenge-dotnet\src\DevOpsChallenge.SalesApi.Database\obj\Debug\net5.0\DevOpsChallenge.SalesApi.Database.genruntimeconfig.cache
