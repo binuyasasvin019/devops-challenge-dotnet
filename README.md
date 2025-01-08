@@ -9,7 +9,7 @@ Pipeline Configuration: .github/workflows/ci-cd-pipeline.yml
 
 The pipeline is designed to build, containerize, and optionally push the application as a Docker image. Here's a breakdown:
 
-# Triggers
+### Triggers
 
 push: Automatically triggers the pipeline for every push to the main branch.
 pull_request: Executes the pipeline for pull requests targeting the main branch.
@@ -73,3 +73,73 @@ Leveraged ubuntu-latest runners for a consistent and platform-independent pipeli
 # Conclusion
 
 This guide outlines the CI/CD pipeline and the best practices applied in this project. The solution ensures a streamlined and secure process for building and containerizing the .NET 5 application while adhering to DevOps principles.
+
+# Files
+
+Docker-file
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/* && apt-get clean
+
+WORKDIR /src
+
+COPY ["DevOpsChallenge.SalesApi/DevOpsChallenge.SalesApi.csproj", "DevOpsChallenge.SalesApi/"]
+COPY ["DevOpsChallenge.SalesApi.Business/DevOpsChallenge.SalesApi.Business.csproj", "DevOpsChallenge.SalesApi.Business/"]
+COPY ["DevOpsChallenge.SalesApi.Database/DevOpsChallenge.SalesApi.Database.csproj", "DevOpsChallenge.SalesApi.Database/"]
+
+RUN dotnet restore DevOpsChallenge.SalesApi/DevOpsChallenge.SalesApi.csproj
+
+COPY . .
+
+RUN dotnet publish DevOpsChallenge.SalesApi/DevOpsChallenge.SalesApi.csproj --configuration Release --output /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS final
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+EXPOSE 80
+EXPOSE 443
+
+ENTRYPOINT ["dotnet", "DevOpsChallenge.SalesApi.dll"]
+
+.github/workflows/ci-cd-pipeline.yml
+```yaml name: Build and Containerize .NET Application
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Set up .NET SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '5.0'
+
+    - name: Build Docker image
+      run: |
+        cd src
+        docker build --rm -f DevOpsChallenge.SalesApi/Dockerfile -t devops-challenge-salesapi:${{ github.run_number }} .
+        docker images
+         
+    - name: Tag Docker image
+      run: docker tag devops-challenge-salesapi:${{ github.run_number }} ${{ secrets.DOCKER_USERNAME }}/devops-challenge-salesapi:${{ github.run_number }}    
+
+    - name: Push Docker image to DockerHub (optional)
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push ${{ secrets.DOCKER_USERNAME }}/devops-challenge-salesapi:${{ github.run_number }}
+
+
