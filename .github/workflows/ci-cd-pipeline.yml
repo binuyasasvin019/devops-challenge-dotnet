@@ -34,9 +34,9 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker buildx build \
+        docker buildx build --no-cache \
           --platform linux/amd64 \
-          -t my-dotnet-api:${{ github.sha }} \
+          -t DevOps-Challenge-SalesApi:${{ github.sha }} \
           -f Dockerfile .
 
     - name: List Docker images
