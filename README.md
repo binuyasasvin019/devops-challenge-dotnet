@@ -76,7 +76,7 @@ This guide outlines the CI/CD pipeline and the best practices applied in this pr
 
 # Files
 
-Docker-file
+Docker-file (path - src/DevOpsChallenge.SalesApi/Dockerfile)
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 
