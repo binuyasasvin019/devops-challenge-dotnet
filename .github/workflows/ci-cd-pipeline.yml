@@ -32,19 +32,37 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-
 
-    - name: Build Docker image
-      run: |
-        docker buildx build \
-          --platform linux/amd64 \
-          -t binuyasas/devops-challenge-salesapi:${{ github.sha }} \
-          -f Dockerfile .
-          --push
-        docker images
+      # Log in to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: List Docker images
-      run: docker images    
+      # Build and push the Docker image
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: binuyasas/devops-challenge-salesapi:${{ github.sha }}
 
-    - name: Push Docker image to DockerHub (optional)
-      run: |
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push binuyasas/devops-challenge-salesapi:${{ github.sha }}
+      # Optionally list images (for debugging purposes)
+      - name: List Docker images
+        run: docker images
+
+    #- name: Build Docker image
+    #  run: |
+    #    docker buildx build \
+    #      --platform linux/amd64 \
+    #      -t binuyasas/devops-challenge-salesapi:${{ github.sha }} \
+    #      -f Dockerfile .
+    #    docker images
+#
+    #- name: List Docker images
+    #  run: docker images    
+#
+    #- name: Push Docker image to DockerHub (optional)
+    #  run: |
+    #    echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+    #    docker push binuyasas/devops-challenge-salesapi:${{ github.sha }}
