@@ -2,7 +2,7 @@
 
 # Overview 
 
-This repository demonstrates a DevOps challenge to containerize and build a .NET 5 application using a GitHub Actions CI/CD pipeline. The solution incorporates best practices to ensure a high-quality deliverable and an efficient developer experience.
+This repository demonstrates a DevOps challenge to containerize and build a .NET 5 application using a GitHub Actions CI/CD pipeline. The solution incorporates best practices to ensure a high-quality deliverable and an efficient developer experience..
 
 # CI/CD Pipeline Details
 Pipeline Configuration: .github/workflows/ci-cd-pipeline.yml
